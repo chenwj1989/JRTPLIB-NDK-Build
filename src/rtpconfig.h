@@ -30,50 +30,47 @@
 
 */
 
+#ifndef RTPCONFIG_UNIX_H
+
+#define RTPCONFIG_UNIX_H
+
+#ifndef JRTPLIB_UNUSED
 /**
- * \file rtpsocketutilinternal.h
+ * Provide a macro to use for marking method parameters as unused.
  */
+#define JRTPLIB_UNUSED(x) (void)(x)
+#endif // JRTPLIB_UNUSED
 
-#ifndef RTPSOCKETUTILINTERNAL_H
+#define JRTPLIB_IMPORT 
+#define JRTPLIB_EXPORT 
+#ifdef JRTPLIB_COMPILING
+	#define JRTPLIB_IMPORTEXPORT JRTPLIB_EXPORT
+#else
+	#define JRTPLIB_IMPORTEXPORT JRTPLIB_IMPORT
+#endif // JRTPLIB_COMPILING
 
-#define RTPSOCKETUTILINTERNAL_H
+#define JRTPLIB_NO_COPY(ClassName) \
+	private: \
+		ClassName(const ClassName &); \
+		ClassName &operator=(const ClassName &);
 
-#ifdef RTP_SOCKETTYPE_WINSOCK
-	#define RTPSOCKERR								INVALID_SOCKET
-	#define RTPCLOSE(x)								closesocket(x)
-	#define RTPSOCKLENTYPE							int
-	#define RTPIOCTL								ioctlsocket
-#else // not Win32
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-	#include <arpa/inet.h>
-	#include <sys/ioctl.h>
-	#include <net/if.h>
-	#include <string.h>
-	#include <netdb.h>
-	#include <unistd.h>
 
-	#ifdef RTP_HAVE_SYS_FILIO
-		#include <sys/filio.h>
-	#endif // RTP_HAVE_SYS_FILIO
-	#ifdef RTP_HAVE_SYS_SOCKIO
-		#include <sys/sockio.h>
-	#endif // RTP_HAVE_SYS_SOCKIO
-	#ifdef RTP_SUPPORT_IFADDRS
-		#include <ifaddrs.h>
-	#endif // RTP_SUPPORT_IFADDRS
+//#define RTP_HAVE_SYS_FILIO
+//#define RTP_HAVE_SYS_SOCKIO
+#define RTP_SUPPORT_NETINET_IN
+#define RTP_SUPPORT_THREAD
+#define RTP_SUPPORT_SDESPRIV
+#define RTP_SUPPORT_PROBATION
+#define RTP_SOCKLENTYPE_UINT
+#define RTP_SUPPORT_IPV6
+#define RTP_SUPPORT_IPV6MULTICAST
+#define RTP_SUPPORT_SENDAPP
+#define RTP_SUPPORT_MEMORYMANAGEMENT
+#define RTP_HAVE_ARRAYALLOC
+//#define RTP_SUPPORT_SRTP
+#define RTP_HAVE_POLL
+#define RTP_HAVE_MSG_NOSIGNAL
 
-	#define RTPSOCKERR								-1
-	#define RTPCLOSE(x)								close(x)
 
-	#ifdef RTP_SOCKLENTYPE_UINT
-		#define RTPSOCKLENTYPE				socklen_t
-	#else
-		#define RTPSOCKLENTYPE						int
-	#endif // RTP_SOCKLENTYPE_UINT
-
-	#define RTPIOCTL								ioctl
-#endif // RTP_SOCKETTYPE_WINSOCK
-
-#endif // RTPSOCKETUTILINTERNAL_H
+#endif // RTPCONFIG_UNIX_H
 
