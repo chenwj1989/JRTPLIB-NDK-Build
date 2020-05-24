@@ -1,24 +1,40 @@
-(For the original README file, see [README2.md](README2.md))
+JRTPLIB for NDK Build
+=======
 
-End of development
-==================
 
-I find that this is a difficult decision, and I can't really think of a way
-to present all the thoughts that have convinced me that this is a step I
-need to make. This library started as my first real open source project way
-back in 1999, when I was still very much a student, and it was the first time
-I actually shared any kind of code with the outside world. Needless to say, 
-it will always be linked to many good memories, and as such is hard to let 
-go.
+This is a fork of JRTPLIB [JRTPLIB](https://github.com/j0r1/JRTPLIB), which is a popular RTP library written. The library is written in C++ and can be used as the JNI RTP library for Android applications. The original README is renamed README.original.
 
-Times change however, and I feel I haven't been able to give this project the
-attention it deserves for quite some time now, even though it probably does 
-not really require that many interventions. As other things have come along 
-that captured my interest, and as some health issues have come along that 
-further captured some time, I think the time has come to make this difficult
-decision.
+This fork does nothing but building suitable libjrtplib.so for all Android ABIs (armeabi-v7a, arm64-v8a, x86 and x86_64).  
 
-So it is with mixed emotions, both sadness as well as a feeling of relief,
-that I say goodbye to JRTPLIB.
+Changes to the original repository can be found in commit [babff5f](https://github.com/chenwj1989/JRTPLIB-NDK-Build/commit/babff5ffa0162b4e74dadbff199adbf6ab4f2fc5), which include
 
-Jori
+* Adding build scripts for ndk.\
+  new file:   Android.mk  \
+  new file:   Application.mk \
+  new file:   ndk_build.sh
+
+* Include JTHREAD. You can change path of JTHREAD source files in Android.mk according to your directory.  \
+  new file:   jthread/jmutex.cpp \
+	new file:   jthread/jmutex.h \
+	new file:   jthread/jmutexautolock.h \
+	new file:   jthread/jthread.cpp \
+	new file:   jthread/jthread.h \
+	new file:   jthread/jthreadconfig.h 
+	
+
+* Adapt some header files for building: \
+	new file:   src/rtptypes.h \
+	new file:   src/rtplibraryversioninternal.h \
+	modified:   src/rtpsocketutilinternal.h
+
+When building, replace "*/home/test/android-ndk-r21b/ndk-build*" in ndk_build.sh with your own ndk path, and then run \
+  ./ndk_build.sh. 
+
+The ourput libraries locates at ./libs, including:
+
+	libs/arm64-v8a/libjrtplib.so 
+	libs/armeabi-v7a/libjrtplib.so 
+	libs/x86/libjrtplib.so 
+	libs/x86_64/libjrtplib.so
+
+
